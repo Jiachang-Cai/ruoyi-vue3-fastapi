@@ -9,9 +9,10 @@ RuoYi-Vue3-FastAPI是一套全部开源的快速开发平台，毫无保留给�
 * 特别鸣谢：<u>[RuoYi-Vue3-FastAPI](https://github.com/insistence/RuoYi-Vue3-FastAPI)</u>
 
 ## 自己优化调整
+
 ### ruoyi-fastapi-backend
 1. 依赖管理调整为[uv](https://github.com/astral-sh/uv)
-2. 新增Dockerfile用户docker部署
+2. 新增Dockerfile用于docker部署
 ```shell
    docker build --build-arg APP_ENV=dev -t rouyi-fastapi .
    docker run -d  -p 9099:9099 -v $HOME/logs:/app/logs  --name ruoyi-fastapi --restart=always rouyi-fastapi:latest
