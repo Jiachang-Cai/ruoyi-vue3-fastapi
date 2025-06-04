@@ -24,8 +24,6 @@ class AppSettings(BaseSettings):
     app_reload: bool = True
     app_ip_location_query: bool = True
     app_same_time_login: bool = True
-    app_workers: int = 1
-
 
 class JwtSettings(BaseSettings):
     """
@@ -219,19 +217,23 @@ class GetConfig:
         """
         解析命令行参数
         """
+        print(sys.argv[0])
         if 'uvicorn' in sys.argv[0]:
             # 使用uvicorn启动时，命令行参数需要按照uvicorn的文档进行配置，无法自定义参数
+            pass
+        elif 'gunicorn' in sys.argv[0]:
             pass
         else:
             # 使用argparse定义命令行参数
             parser = argparse.ArgumentParser(description='命令行参数')
             parser.add_argument('--env', type=str, default='', help='运行环境')
-            # 解析命令行参数
+            # 解析命令行参数 parse_args() 会将gunicorn的启动参数当做输入使用parse_known_args
             args = parser.parse_args()
             # 设置环境变量，如果未设置命令行参数，默认APP_ENV为dev
             os.environ['APP_ENV'] = args.env if args.env else 'dev'
         # 读取运行环境
         run_env = os.environ.get('APP_ENV', '')
+        print(run_env, 'run')
         # 运行环境未指定时默认加载.env.dev
         env_file = '.env.dev'
         # 运行环境不为空时按命令行参数加载对应.env文件

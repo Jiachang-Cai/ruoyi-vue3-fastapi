@@ -17,13 +17,14 @@ RUN apt-get update && apt-get install -y \
 
 # 安装uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+#ENV PATH="/app/.venv/bin:$PATH"
 # 拷贝应用代码
 WORKDIR /app
 COPY . .
 # 安装依赖
 RUN uv sync --frozen --no-cache
-# 端口
-EXPOSE 9099
-# 启动应用
-CMD [".venv/bin/python", "app.py"]
+# 安装部署依赖
+RUN uv pip install gunicorn uvloop httptools
+# 启动应用 调整到docker-compose
+# CMD [".venv/bin/python", "main.py"]
 
